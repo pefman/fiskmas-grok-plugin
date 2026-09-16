@@ -33,9 +33,11 @@ Grok — two surfaces:
   https://github.com/pefman/fiskmas-grok-plugin). The plugin ships this skill
   plus the MCP pointer — the human side only needs `FISKMAS_TOKEN` in the
   environment.
-- **Grok (web/app):** add a custom MCP connector pointing at the URL above;
-  the client-neutral config below works as-is, with the API token as the
-  `Authorization: Bearer` header.
+- **Grok (web/app):** add a custom MCP connector pointing at the URL above.
+  Grok's connector dialog is OAuth-only (no Bearer field) and Fiskmås serves
+  no OAuth discovery, so in chat only the public onboarding tools work
+  (`create_account`, `account_status`) — use Grok Build or another MCP client
+  for the full toolset.
 
 Claude Code — project `.mcp.json`, or
 `claude mcp add --transport http fiskmas https://mcp.fiskmas.dev/mcp --header "Authorization: Bearer ${FISKMAS_TOKEN}"`:
