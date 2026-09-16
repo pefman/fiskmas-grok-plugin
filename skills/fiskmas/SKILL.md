@@ -26,6 +26,17 @@ start a new chat if tools do not appear, then continue.
 - URL (Streamable HTTP): `https://mcp.fiskmas.dev/mcp`
 - Auth header: `Authorization: Bearer <token>` (from `FISKMAS_TOKEN`)
 
+Grok — two surfaces:
+
+- **Grok Build (CLI):** install the `fiskmas` plugin from the xAI plugin
+  marketplace (`grok plugin install fiskmas --trust`; source:
+  https://github.com/pefman/fiskmas-grok-plugin). The plugin ships this skill
+  plus the MCP pointer — the human side only needs `FISKMAS_TOKEN` in the
+  environment.
+- **Grok (web/app):** add a custom MCP connector pointing at the URL above;
+  the client-neutral config below works as-is, with the API token as the
+  `Authorization: Bearer` header.
+
 Claude Code — project `.mcp.json`, or
 `claude mcp add --transport http fiskmas https://mcp.fiskmas.dev/mcp --header "Authorization: Bearer ${FISKMAS_TOKEN}"`:
 
