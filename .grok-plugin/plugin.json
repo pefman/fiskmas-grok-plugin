@@ -1,0 +1,14 @@
+{
+  "name": "fiskmas",
+  "version": "1.0.0",
+  "description": "Fiskmås, an MCP-native Docker app host: register, build, push, and deploy containerized HTTP apps to fiskmas.dev, then manage, debug, and scale them with MCP tools the agent calls for you. Free tier included (1 running project, sleeps after 24 h idle); Plus is $9.99/mo.",
+  "author": {
+    "name": "Fiskmås",
+    "email": "noreply@fiskmas.dev"
+  },
+  "homepage": "https://fiskmas.dev",
+  "repository": "https://github.com/pefman/fiskmas-grok-plugin",
+  "license": "MIT",
+  "mcpServers": "./.grok-plugin/mcp.json",
+  "keywords": ["fiskmas", "fiskmas deploy", "fiskmas mcp", "host on fiskmas", "fiskmas registry"]
+}

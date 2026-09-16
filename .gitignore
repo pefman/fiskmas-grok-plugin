@@ -1,0 +1,17 @@
+# editor tooling
+.vscode/
+.idea/
+
+# never commit real credentials
+*.token
+credentials
+.env
+.env.*
+! .env.example
+secrets/
+keys/
+*.pem
+*.key
+
+# os noise
+.DS_Store
