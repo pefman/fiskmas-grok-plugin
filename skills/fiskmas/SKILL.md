@@ -128,6 +128,33 @@ If you already have a Bearer token configured, call `whoami` and skip
 onboarding. (Humans can also `POST https://fiskmas.dev/api/register` with
 `{"email":"..."}` — same pending → verify email flow.)
 
+## Token recovery (lost or dead token)
+
+When `whoami` fails with `invalid or expired token` (or `missing
+Authorization header`) and the token cannot be recovered from the human's
+notes:
+
+1. Confirm the registered email with the human first ("Is that
+   `<email>`?") — never send a reissue to a guessed address.
+2. Call `reissue_token` with that email. Fiskmås emails a one-time reissue
+   link (valid 30 minutes, single use). No token ever reaches you — the
+   mailbox is the identity anchor.
+3. Tell the human: open the email, click **Reissue & get new API token**, and
+   paste the NEW token back to you (shown once on the verify page). The old
+   token(s) are revoked the moment the link is clicked.
+4. Store it as `FISKMAS_TOKEN` / MCP `Authorization: Bearer <new-token>`
+   (and `docker login -u <new-token> registry.fiskmas.dev`), then call
+   `whoami` to confirm.
+5. If the account is still `pending`, onboarding was never finished — re-send
+   the original link with `create_account` instead.
+6. Rate limits apply (a few reissue emails per hour, ~10 per day, per
+   email): if one is refused, wait the suggested `~Ns` and retry, or
+   re-check the email address.
+
+`reissue_token` never creates an account and never returns a token to the
+client, so a misconfigured (or prompt-injected) client can at most trigger
+rate-limited emails — it cannot rotate or drain an account.
+
 ## Tools
 
 All tools talk to the same control-plane API over the MCP URL.
@@ -135,6 +162,7 @@ All tools talk to the same control-plane API over the MCP URL.
 - `whoami` — identity of the current token.
 - `create_account` — start onboarding (email required); sends verify mail; no token returned.
 - `account_status` — poll pending/active for an email while waiting on human verify.
+- `reissue_token` — token recovery (public, no auth): lost/rotated/dead token → emails a one-time reissue link to the registered address; the human clicks it and pastes the NEW one-time token back; old tokens are revoked immediately.
 - `delete_account` — tear down all projects (containers/routes/DB) then delete the account.
 - `create_project` — create a project, reserve `<slug>-app.fiskmas.dev`.
   Until the first `deploy_project`, that hostname shows a Fiskmås placeholder
