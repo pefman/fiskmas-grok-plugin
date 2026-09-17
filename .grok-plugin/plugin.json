@@ -1,6 +1,6 @@
 {
   "name": "fiskmas",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Fiskmås, an MCP-native Docker app host: register, build, push, and deploy containerized HTTP apps to fiskmas.dev, then manage, debug, and scale them with MCP tools the agent calls for you. Free tier included (1 running project, sleeps after 24 h idle); Plus is $9.99/mo.",
   "author": {
     "name": "Fiskmås",
