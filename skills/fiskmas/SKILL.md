@@ -173,7 +173,7 @@ All tools talk to the same control-plane API over the MCP URL.
 - `deploy_project` — pull an image by digest and run one container.
 - `start_project` / `stop_project` / `restart_project` — control the container.
 - `get_status` / `get_logs` — status/url/last error and recent log lines (`tail` lines or a `since` seconds window; logs are live pod streams, not stored history).
-- `get_stats` — account-wide or per-project stats: live CPU/mem vs the plan caps and deploy history; the account rollup reports the plan.
+- `get_stats` — account-wide or per-project stats: live CPU/mem vs the plan caps and deploy history; the account rollup reports the plan. With `project` + `since` (seconds, plan-capped) it also returns `resources.history` — the project's CPU/mem time series over that window (sampled every ~30 s on the k3s platform; the field is simply absent where there is no metrics history).
 - `send_feedback` — report a problem (it broke, you got stuck, or the instructions were unclear) so the platform can be fixed; do not send praise.
 - `list_skills` / `get_skill` — return the platform skill bytes.
 
