@@ -130,7 +130,8 @@ onboarding. (Humans can also `POST https://fiskmas.dev/api/register` with
 
 ## Token recovery (lost or dead token)
 
-When `whoami` fails with `invalid or expired token` (or `missing
+When `whoami` fails with `invalid or expired token`, `token revoked or
+replaced …`, `account is 'pending', not active …` (or `missing
 Authorization header`) and the token cannot be recovered from the human's
 notes:
 
@@ -150,6 +151,20 @@ notes:
 6. Rate limits apply (a few reissue emails per hour, ~10 per day, per
    email): if one is refused, wait the suggested `~Ns` and retry, or
    re-check the email address.
+
+**A token you swapped mid-session is not enough on its own.** MCP clients bake
+the `Authorization` header when the connection is configured; the server is
+stateless and reads it per request. A new token pasted into the client's config
+takes effect only after the MCP connection is reloaded — restart the MCP server
+entry, or start a new chat. The 401 text says which case you are in:
+
+- `token revoked or replaced …` — the client is still sending an older token
+  (a reissue revokes every older one). Reload the connection.
+- `account is 'pending', not active …` — the token is real; onboarding was
+  never finished. Poll `account_status`, or re-send the link with
+  `create_account`.
+- `invalid or expired token` — Fiskmås never issued that token. Re-check what
+  was pasted, then reissue.
 
 `reissue_token` never creates an account and never returns a token to the
 client, so a misconfigured (or prompt-injected) client can at most trigger
